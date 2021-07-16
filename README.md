@@ -1,6 +1,6 @@
 # NetCore-DICOM-Helper
 
-## features
+## Features
 - Convert DCM file to JPG image
 
 ## Library

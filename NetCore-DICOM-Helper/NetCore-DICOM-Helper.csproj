@@ -1,0 +1,17 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <RootNamespace>NetCore_DICOM_Helper</RootNamespace>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="fo-dicom.NetCore" />
+    <None Remove="fo-dicom.Drawing" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="fo-dicom.NetCore" Version="4.0.7" />
+    <PackageReference Include="fo-dicom.Drawing" Version="4.0.7" />
+  </ItemGroup>
+</Project>

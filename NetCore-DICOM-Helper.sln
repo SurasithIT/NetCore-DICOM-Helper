@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.810.5
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NetCore-DICOM-Helper", "NetCore-DICOM-Helper\NetCore-DICOM-Helper.csproj", "{D5352CAC-EC36-4DDA-8DA8-C40281C32F44}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{D5352CAC-EC36-4DDA-8DA8-C40281C32F44}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D5352CAC-EC36-4DDA-8DA8-C40281C32F44}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D5352CAC-EC36-4DDA-8DA8-C40281C32F44}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D5352CAC-EC36-4DDA-8DA8-C40281C32F44}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {E796D270-88F7-43FD-84FC-12587FC27D10}
+	EndGlobalSection
+EndGlobal

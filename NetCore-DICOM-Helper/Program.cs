@@ -14,8 +14,13 @@ namespace NetCore_DICOM_Helper
                 Console.WriteLine("Start convert DICOM file to Jpg image");
                 ImageManager.SetImplementation(new WinFormsImageManager());
 
-                string input = @"/Users/surasith/Downloads/example";
-                string output = @"/Users/surasith/Downloads/example.jpg";
+                string filePath = "../../../example_files";
+
+                string inputFileName = "CT2_J2KR";
+                string input = Path.Combine(Environment.CurrentDirectory, filePath, inputFileName);
+
+                string outputFileName = "CT2_J2KR.jpg";
+                string output = Path.Combine(Environment.CurrentDirectory, filePath, outputFileName);
 
                 ConvertDcmToJpg(input, output);
                 if (File.Exists(output))
@@ -27,13 +32,10 @@ namespace NetCore_DICOM_Helper
                     throw new Exception("Convert fail");
                 }
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 Console.WriteLine(ex.Message, ex);
             }
-            
-            
-           
         }
 
         static void ConvertDcmToJpg(string inputFilePath, string outputFilePath)
@@ -42,11 +44,11 @@ namespace NetCore_DICOM_Helper
 
             if (exitsting)
             {
-                using (Stream stream = new FileStream(inputFilePath, FileMode.Open))
+                using (Stream stream = new FileStream(inputFilePath, FileMode.Open, FileAccess.Read))
                 {
                     DicomFile dicom = DicomFile.Open(stream);
                     DicomImage image = new DicomImage(dicom.Dataset);
-                    var bitmap = image.RenderImage().AsBitmap();
+                    var bitmap = image.RenderImage().AsSharedBitmap();
                     bitmap.Save(outputFilePath);
                 }
             }

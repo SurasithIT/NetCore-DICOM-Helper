@@ -9,9 +9,13 @@
   <ItemGroup>
     <None Remove="fo-dicom.NetCore" />
     <None Remove="fo-dicom.Drawing" />
+    <None Remove="example_files\" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="fo-dicom.NetCore" Version="4.0.7" />
     <PackageReference Include="fo-dicom.Drawing" Version="4.0.7" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="example_files\" />
   </ItemGroup>
 </Project>

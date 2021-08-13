@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Drawing;
 using System.IO;
 using Dicom;
 using Dicom.Imaging;
@@ -16,13 +17,13 @@ namespace NetCore_DICOM_Helper
 
                 string filePath = "../../../example_files";
 
-                string inputFileName = "E3.dcm";
+                string inputFileName = "E1.dcm";
                 string input = Path.Combine(Environment.CurrentDirectory, filePath, inputFileName);
 
                 string outputFileName = "E1.jpg";
                 string output = Path.Combine(Environment.CurrentDirectory, filePath, outputFileName);
 
-                ConvertDcmToJpg(input, output);
+                ConvertDcmToJpg(input, output, true, 200);
                 if (File.Exists(output))
                 {
                     Console.WriteLine("Convert success");
@@ -38,7 +39,7 @@ namespace NetCore_DICOM_Helper
             }
         }
 
-        static void ConvertDcmToJpg(string inputFilePath, string outputFilePath)
+        static void ConvertDcmToJpg(string inputFilePath, string outputFilePath, bool resize = false, decimal maxSize = 0)
         {
             bool exitsting = File.Exists(inputFilePath);
 
@@ -54,14 +55,24 @@ namespace NetCore_DICOM_Helper
                         MemoryStream mstream = new MemoryStream(bytes);
                         using (System.Drawing.Image image = System.Drawing.Image.FromStream(mstream))
                         {
-                            image.Save(outputFilePath);
+                            decimal width = image.Width;
+                            decimal height = image.Height;
+                            if (resize == true) CalculateNewImageSize(maxSize, image.Width, image.Height, out width, out height);
+                            var bitmap = new Bitmap(image, new Size(Decimal.ToInt32(width), Decimal.ToInt32(height)));
+                            bitmap.Save(outputFilePath);
                         }
                     }
                     else
                     {
                         DicomImage image = new DicomImage(dicom.Dataset);
                         var bitmap = image.RenderImage().AsSharedBitmap();
-                        bitmap.Save(outputFilePath);
+
+                        decimal width = image.Width;
+                        decimal height = image.Height;
+                        if (resize == true) CalculateNewImageSize(maxSize, image.Width, image.Height, out width, out height);
+                        var _bitmap = new Bitmap(bitmap, new Size(Decimal.ToInt32(width), Decimal.ToInt32(height)));
+
+                        _bitmap.Save(outputFilePath);
                     }
                 }
             }
@@ -69,6 +80,35 @@ namespace NetCore_DICOM_Helper
             {
                 throw new Exception("Original file not found");
             }
+        }
+
+        static void CalculateNewImageSize(decimal maxSize, decimal imageWidth, decimal imageHeight, out decimal newWidth, out decimal newHeight)
+        {
+            decimal width = 0;
+            decimal ratio = 0;
+            decimal height = 0;
+
+            if (imageWidth > imageHeight)
+            {
+                width = maxSize;
+                ratio = Decimal.Divide(width, imageWidth);
+                height = imageHeight * ratio;
+            }
+            if (imageWidth < imageHeight)
+            {
+                height = maxSize;
+                ratio = Decimal.Divide(height, imageHeight);
+                width = imageWidth * ratio;
+            }
+            if (imageWidth == imageHeight)
+            {
+                height = maxSize;
+                width = maxSize;
+            }
+
+            newWidth = width;
+            newHeight = height;
+            //return new { width, height };
         }
     }
 }

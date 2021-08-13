@@ -16,10 +16,10 @@ namespace NetCore_DICOM_Helper
 
                 string filePath = "../../../example_files";
 
-                string inputFileName = "CT2_J2KR";
+                string inputFileName = "E3.dcm";
                 string input = Path.Combine(Environment.CurrentDirectory, filePath, inputFileName);
 
-                string outputFileName = "CT2_J2KR.jpg";
+                string outputFileName = "E1.jpg";
                 string output = Path.Combine(Environment.CurrentDirectory, filePath, outputFileName);
 
                 ConvertDcmToJpg(input, output);
@@ -47,9 +47,22 @@ namespace NetCore_DICOM_Helper
                 using (Stream stream = new FileStream(inputFilePath, FileMode.Open, FileAccess.Read))
                 {
                     DicomFile dicom = DicomFile.Open(stream);
-                    DicomImage image = new DicomImage(dicom.Dataset);
-                    var bitmap = image.RenderImage().AsSharedBitmap();
-                    bitmap.Save(outputFilePath);
+                    var ob = dicom.Dataset.GetDicomItem<DicomOtherByteFragment>(DicomTag.PixelData);
+                    if (ob != null)
+                    {
+                        byte[] bytes = ob.Fragments[0].Data;
+                        MemoryStream mstream = new MemoryStream(bytes);
+                        using (System.Drawing.Image image = System.Drawing.Image.FromStream(mstream))
+                        {
+                            image.Save(outputFilePath);
+                        }
+                    }
+                    else
+                    {
+                        DicomImage image = new DicomImage(dicom.Dataset);
+                        var bitmap = image.RenderImage().AsSharedBitmap();
+                        bitmap.Save(outputFilePath);
+                    }
                 }
             }
             else

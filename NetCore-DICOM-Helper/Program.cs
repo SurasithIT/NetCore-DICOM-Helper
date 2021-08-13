@@ -108,7 +108,6 @@ namespace NetCore_DICOM_Helper
 
             newWidth = width;
             newHeight = height;
-            //return new { width, height };
         }
     }
 }
